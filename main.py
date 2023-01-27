@@ -9,7 +9,7 @@ from aiogram.types import ParseMode
 from aiogram.utils import executor
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from sqlite import db_start, create_profile, edit_profile
+from sqlite import db_start
 import random
 
 
