@@ -78,11 +78,14 @@ async def cmd_start(message: types.Message) -> None:
 s = h1.words[h1.num].strip()
 a = []
 b = []
-@dp.message_handler(commands=['play'])
+@dp.message_handler(commands=['play'], state = Hangman1.wl)
 async def process_hangman(message: types.Message):
     global a
     global s
     global b
+    s = h1.words[h1.num].strip()
+    a = []
+    b = []
     for i in range(len(s)):
         a.append('_')
     await message.reply(f"Let's start!\n lives = {h1.lv}\n {' '.join(a)}\n Used: [{' '.join(b)}]\n Enter a letter:",
@@ -97,17 +100,19 @@ async def display_hg(message: types.Message):
     go = a.count('_')
     if go == 0:
         await message.answer('GAME OVER!\nYOU WIN!')
+        await message.reply(f"lives = {h1.lv}\n {' '.join(a)}\n Used: [{' '.join(b)}]")
         h1.lv = 5
         a = []
         b = []
         s = h1.words[random.randint(0, 4)].strip()
+        await Hangman1.wl.set()
     elif go != 0 and h1.lv == 0:
         await message.answer('GAME OVER!\nYOU LOSE!')
-        await message.reply(f"Let's start!\n lives = {h1.lv}\n {' '.join(a)}\n Used: [{' '.join(b)}]")
         h1.lv = 5
         a = []
         b = []
         s = h1.words[random.randint(0, 4)].strip()
+        await Hangman1.wl.set()
     else:
         await message.reply(f"Let's start!\n lives = {h1.lv}\n {' '.join(a)}\n Used: [{' '.join(b)}]\n Enter a letter:")
         await Hangman1.send.set()
