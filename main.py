@@ -83,6 +83,7 @@ async def process_hangman(message: types.Message):
     global a
     global s
     global b
+    h1.lv = 5
     s = h1.words[h1.num].strip()
     a = []
     b = []
