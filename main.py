@@ -73,18 +73,18 @@ async def cmd_cancel(message: types.Message, state: FSMContext):
 async def cmd_start(message: types.Message) -> None:
      await message.answer('Welcome! So as to create profile - type /play',
                           reply_markup=get_game())
-     await process_hangman(user_id=message.from_user.id)
 
-s = h1.words[h1.num].strip()
+
+s = h1.words[random.randint(0, 4)].strip()
 a = []
 b = []
-@dp.message_handler(commands=['play'], state = Hangman1.wl)
+@dp.message_handler(commands=['play'])
 async def process_hangman(message: types.Message):
     global a
     global s
     global b
     h1.lv = 5
-    s = h1.words[h1.num].strip()
+    s = h1.words[random.randint(0, 4)].strip()
     a = []
     b = []
     for i in range(len(s)):
@@ -115,7 +115,7 @@ async def display_hg(message: types.Message):
         s = h1.words[random.randint(0, 4)].strip()
         await Hangman1.wl.set()
     else:
-        await message.reply(f"Let's start!\n lives = {h1.lv}\n {' '.join(a)}\n Used: [{' '.join(b)}]\n Enter a letter:")
+        await message.reply(f"lives = {h1.lv}\n {' '.join(a)}\n Used: [{' '.join(b)}]\n Enter a letter:")
         await Hangman1.send.set()
 
 @dp.message_handler( state=Hangman1.send)
@@ -133,6 +133,9 @@ async def play_hg(message: types.Message):
                 if s[i] == message.text:
                     a[i] = message.text
             b.append(message.text)
+    else:
+        await message.reply('Nope! Type "_"')
+        h1.lv -= 1
     await Hangman1.display.set()
 
 
